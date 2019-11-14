@@ -1,5 +1,14 @@
 // vue.config.js
 const path = require('path');
+
+const px2rem = require('postcss-plugin-px2rem');
+const postcss = px2rem({
+    rootValue: 100, 
+    mediaQuery: false, //允许在媒体查询中转换px
+    minPixelValve: 3  //设置要替换的最小像素值
+    exclude: "/node_modules/i"   //过滤插件
+})
+
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -54,10 +63,12 @@ module.exports = {
     },
     css: {
         loaderOptions: {
-            postcss:{
-                plugins:{
-                    
-                }
+            sass: {
+            },
+            postcss: {
+                plugins: [
+                    postcss
+                ]
             }
         }
     },
